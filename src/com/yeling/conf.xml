@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--引入动态配置-->
+    <properties resource="com/yeling/db.properties"/>
+
+    <!--全局参数-->
+    <!--    <settings>-->
+    <!--        <setting name="" value=""/>-->
+    <!--    </settings>-->
+
+
+    <!--通过default参数来确定使用哪个配置-->
+    <environments default="development">
+        <!--本机-->
+        <environment id="development">
+            <!--
+            配置事物提交方式：
+            JDBC：利用JDBC方式处理事物（手动使用commit rollback close）
+            MANAGED：将事物交由其它组件去托管（spring jboss）默认情况下使用完后会关闭连接
+            <transactionManager type="MANAGED">
+                <property name="closeConnection" value="false"/>
+            </transactionManager>
+            -->
+            <transactionManager type="JDBC"/>
+            <!--
+            数据源类型：
+            UNPOOLED：传统JDBC模式（需要打开、关闭数据库连接，消耗性能）
+            POOLED：使用数据库连接池（自动配置连接，性能开销低）           - 推荐使用
+            JNDI：从Tomcat中获取一个内置数据库连接池
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+    <mappers>
+        <!--加载映射文件-->
+        <!--<mapper resource="mapper/PersonMapper.xml"/>-->
+        <mapper resource="com/yeling/mapper/GoodsMapper.xml"/>
+        <mapper resource="com/yeling/mapper/CartMapper.xml"/>
+        <mapper resource="com/yeling/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

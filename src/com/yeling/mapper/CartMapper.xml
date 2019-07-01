@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeling.mapper.CartMapper">
+    <!--#{userId}中的userId如果是简单类型，可以瞎几把写
+    如果是对象类型，必须是属性名-->
+    <select id="queryGoodsBySomeId" resultType="com.yeling.beans.GoodsBean">
+        select *
+        from goods
+        where goodsId in
+        <foreach item="item" index="index" collection="integers"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeling.mapper.GoodsMapper">
+    <!--#{userId}中的userId如果是简单类型，可以瞎几把写
+    如果是对象类型，必须是属性名-->
+    <select id="queryGoodsById" resultType="com.yeling.beans.GoodsBean" parameterType="int">
+        select *
+        from goods
+        where goodsId = #{goodsId}
+    </select>
+    <!--如果返回对象，无论返回值有多少个，resultType只写一个，不写List-->
+    <select id="getGoodsSeparatePage" resultType="com.yeling.beans.GoodsBean">
+        select *
+        from goods
+        where goodsId not in
+              (select t.goodsId
+               from (select * from goods order by goodsId limit #{limit}) as t)
+        order by goodsId
+        limit #{pageSize}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(*) totalCount
+        from goods
+    </select>
+</mapper>
